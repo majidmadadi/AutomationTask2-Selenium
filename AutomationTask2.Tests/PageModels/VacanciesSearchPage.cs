@@ -67,8 +67,8 @@ namespace AutomationTask2.Tests.PageModels
         }
 
         /// <summary>
-        /// Reliable clear form using javascript. This link is covered by drop-down 
-        /// menues and prevents the driver click to work.
+        /// Reliable clear form using javascript. The Clear_filters link is covered 
+        /// by drop-down menues and prevents the driver click to work.
         /// </summary>
         public void ClearForm()
         {
