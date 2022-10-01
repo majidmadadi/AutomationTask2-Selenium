@@ -30,7 +30,13 @@ namespace AutomationTask2.Tests.PageModels
 
         public IWebElement Keywords => _driver.FindElement(By.XPath("//input[@placeholder='Keyword']"));
 
-        //ClearForm() must be called before this this function
+        /// <summary>
+        /// ClearForm() must be called before this function. Because we have reset filters
+        /// before calling this function, we don't need to check whether it is already
+        /// selected or not.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns>VacanciesSearchPage</returns>
         public VacanciesSearchPage SelectDepartment(string text)
         {
             var departments = _driver.FindElement(By.XPath("//button[contains(text(),'All departments')]"));
@@ -40,7 +46,13 @@ namespace AutomationTask2.Tests.PageModels
             return this;
         }
 
-        //ClearForm() must be called before this this function
+        /// <summary>
+        /// ClearForm() must be called before this function. Because we have reset filters
+        /// before calling this function, we don't need to check whether it is already
+        /// selected or not.
+        /// </summary>
+        /// <param name="languages"></param>
+        /// <returns>VacanciesSearchPage</returns>
         public VacanciesSearchPage SelectLanguages(string[] languages)
         {
             var langs = _driver.FindElement(By.XPath("//button[contains(text(),'All languages')]"));
@@ -54,9 +66,12 @@ namespace AutomationTask2.Tests.PageModels
             return this;
         }
 
+        /// <summary>
+        /// Reliable clear form using javascript. This link is covered by drop-down 
+        /// menues and prevents the driver click to work.
+        /// </summary>
         public void ClearForm()
         {
-            //make sure 'clear filter' is clicked
             var script = @"var btn = document.evaluate(""//button[text()='Clear filters']"", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue; btn.click();";
             ((IJavaScriptExecutor)_driver).ExecuteScript(script);
         }
@@ -67,6 +82,10 @@ namespace AutomationTask2.Tests.PageModels
             return this;
         }
 
+        /// <summary>
+        /// Finds search results elements using data-vacancy attribute. 
+        /// It's more reliable than using class name.
+        /// </summary>
         public IReadOnlyList<IWebElement> SearchResults
             => _driver.FindElements(By.CssSelector("a[data-vacancy]:not([data-vacancy=''])"));
     }
